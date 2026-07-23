@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" style="--hero-vh: 700px;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Lakshmi Sahithi &amp; Devendra Kumar — Wedding</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Raleway:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            script: ['"Great Vibes"', 'cursive'],
+            display: ['"Cormorant Garamond"', 'serif'],
+            body: ['"Raleway"', 'sans-serif'],
+          },
+          colors: {
+            ivory: '#F0E9E1',
+            countdown: '#EDE5D8',
+            sage: {
+              DEFAULT: '#797F5C',
+              dark: '#4A5733',
+            },
+            foreground: '#4A5733',
+            background: '#F0E9E1',
+            primary: {
+              DEFAULT: '#4A5733',
+              foreground: '#ffffff',
+            },
+            ring: '#797F5C',
+          },
+          boxShadow: {
+            soft: '0 4px 30px rgba(74, 87, 51, 0.08)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ─── Base ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; font-family: 'Raleway', sans-serif; }
+
+    /* ─── Section padding ──────────────────────────────────── */
+    .section-padding { padding: 3rem 1.5rem; }
+    @media (min-width: 768px) { .section-padding { padding: 4rem 1.5rem; } }
+
+    /* ─── Watermark animations ─────────────────────────────── */
+    @keyframes watermark-x {
+      0%, 100% { transform: translateX(-80%); }
+      50%       { transform: translateX(-20%); }
+    }
+    @keyframes watermark-y {
+      0%, 100% { top: 20%; }
+      50%       { top: 75%; }
+    }
+
+    /* ─── Scroll-in animations ─────────────────────────────── */
+    .anim { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .anim.in { opacity: 1; transform: none; }
+
+    /* ─── Custom radio ─────────────────────────────────────── */
+    .cr {
+      appearance: none; -webkit-appearance: none;
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 1.5px solid #4A5733; cursor: pointer; flex-shrink: 0;
+      background: transparent; position: relative;
+    }
+    .cr:checked::after {
+      content: ''; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px; border-radius: 50%; background: #4A5733;
+    }
+    .cr:focus { outline: 2px solid rgba(74,87,51,.3); outline-offset: 2px; }
+
+    /* ─── Custom checkbox ──────────────────────────────────── */
+    .cb {
+      appearance: none; -webkit-appearance: none;
+      width: 16px; height: 16px; border-radius: 3px;
+      border: 1.5px solid #4A5733; cursor: pointer; flex-shrink: 0;
+      background: transparent; position: relative;
+    }
+    .cb:checked { background: #4A5733; border-color: #4A5733; }
+    .cb:checked::after {
+      content: ''; position: absolute;
+      left: 3px; top: 0px;
+      width: 6px; height: 10px;
+      border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+      transform: rotate(45deg);
+    }
+    .cb:focus { outline: 2px solid rgba(74,87,51,.3); outline-offset: 2px; }
+
+    /* ─── RSVP inputs ──────────────────────────────────────── */
+    .ri {
+      display: flex; width: 100%; height: 2.5rem;
+      border-radius: .375rem; border: 1px solid rgba(121, 127, 92, .3);
+      padding: .5rem .75rem; font-size: .875rem;
+      background: #F0E9E1; color: #4A5733;
+      font-family: 'Raleway', sans-serif;
+      transition: border-color .2s;
+    }
+    .ri::placeholder { color: rgba(74,87,51,.5); }
+    .ri:focus { outline: none; border-color: #4A5733; box-shadow: 0 0 0 1px rgba(74,87,51,.3); }
+
+    textarea.ri { height: auto; min-height: 5rem; padding-top: .5rem; resize: vertical; }
+
+    /* ─── Accordion ────────────────────────────────────────── */
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+    .acc-body.open { max-height: 300px; }
+    .acc-chevron { transition: transform .3s ease; }
+    .acc-chevron.open { transform: rotate(180deg); }
+
+    /* ─── Conditional RSVP fields ──────────────────────────── */
+    .cfield { overflow: hidden; transition: max-height .4s ease, opacity .4s ease; }
+
+    /* ─── Companion rows ───────────────────────────────────── */
+    .comp-row {
+      display: flex; align-items: flex-start; gap: .5rem;
+      padding: .75rem; border: 1px solid rgba(121, 127, 92, .2);
+      border-radius: .5rem; background: rgba(255,255,255,.6);
+    }
+    .comp-fields { flex: 1; display: flex; flex-direction: column; gap: .375rem; }
+    .comp-remove {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(74,87,51,.1); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #4A5733; font-size: 14px; flex-shrink: 0;
+      transition: background .2s;
+    }
+    .comp-remove:hover { background: rgba(74,87,51,.2); }
+
+    /* ─── Toast ────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 5rem; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #4A5733; color: #fff;
+      padding: .7rem 1.5rem; border-radius: .5rem;
+      font-family: 'Raleway', sans-serif; font-size: .875rem; font-weight: 500;
+      z-index: 99999; transition: transform .35s ease; pointer-events: none;
+      white-space: nowrap;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ─── Shadow-soft ──────────────────────────────────────── */
+    .shadow-soft { box-shadow: 0 4px 30px rgba(74, 87, 51, 0.08); }
+
+    /* ─── Ornate badge container ───────────────────────────── */
+    .badge-wrap {
+      position: relative; width: 440px; max-width: 100%;
+      aspect-ratio: 5/6; display: flex; align-items: center; justify-content: center;
+    }
+    @media (min-width: 768px) { .badge-wrap { width: 540px; } }
+
+    /* ─── Timeline line ────────────────────────────────────── */
+    .tl-line {
+      width: 1px; background: rgba(74,87,51,.3);
+      height: 40px; transform-origin: top;
+    }
+    @media (min-width: 768px) { .tl-line { height: 56px; } }
+
+    /* ─── Mute button icon swap ────────────────────────────── */
+    #mute-btn .icon-muted { display: none; }
+    #mute-btn.muted .icon-sound { display: none; }
+    #mute-btn.muted .icon-muted { display: block; }
+
+    /* ─── Entry gate ───────────────────────────────────────── */
+    #entry-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      width: 100%;
+      height: var(--hero-vh, 100svh);
+      max-height: var(--hero-vh, 100svh);
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity .85s ease;
+    }
+    #entry-gate video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    #entry-gate.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ─── Entry gate loader ────────────────────────────────── */
+    #gate-loader {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: rgba(0,0,0,0.45);
+      transition: opacity .5s ease;
+      pointer-events: none;
+    }
+    #gate-loader.hidden-loader { opacity: 0; }
+    .gate-spinner {
+      width: 36px; height: 36px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: rgba(255,255,255,0.75);
+      border-radius: 50%;
+      animation: gate-spin .9s linear infinite;
+    }
+    @keyframes gate-spin { to { transform: rotate(360deg); } }
+    .gate-loader-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.9rem, 7vw, 2.6rem);
+      color: rgba(255,255,255,0.82);
+      line-height: 1.1;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .gate-loader-sub {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ─── Entry gate open tab ──────────────────────────────── */
+    #gate-tab {
+      position: absolute;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 1.75rem);
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.35rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.80);
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .6s ease, transform .6s ease;
+      animation: gate-tab-pulse 2.8s ease-in-out infinite;
+    }
+    #gate-tab.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    #gate-tab svg {
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+    @keyframes gate-tab-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.08); }
+      50%       { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+    }
+
+
+    /* Main content hidden until gate dismissed */
+    #main-content { display: none; }
+    #main-content.visible { display: block; }
+
+    /* ─── Events (boxed cards) ──────────────────────────────── */
+    #events-section { padding: 3rem 1.5rem 4rem; background: #F0E9E1; }
+    @media (min-width: 768px) { #events-section { padding: 4rem 1.5rem 5rem; } }
+    .events-header { margin-bottom: 2.5rem; }
+    .events-label {
+      font-family: 'Raleway', sans-serif; font-size: 0.65rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: #797F5C; display: block; margin-bottom: 0.75rem;
+    }
+    .events-ornament {
+      display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 1rem;
+    }
+    .events-ornament-line {
+      height: 1px; width: 72px;
+      background: linear-gradient(to right, transparent, rgba(74, 87, 51, 0.45));
+    }
+    .events-ornament-line.rev {
+      background: linear-gradient(to left, transparent, rgba(74, 87, 51, 0.45));
+    }
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .event-block { width: 100%; }
+    .event-day {
+      font-family: 'Raleway', sans-serif; font-size: 0.65rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: #797F5C; text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    /* The card box */
+    .event-card {
+      background: #fff;
+      border: 1px solid rgba(121, 127, 92, 0.22);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 6px 32px rgba(74, 87, 51, 0.09);
+    }
+    .event-item {
+      width: 100%;
+      line-height: 0;
+    }
+    .event-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 0;
+    }
+    .event-sep {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      margin: 1.75rem auto; max-width: 160px; opacity: 0.45;
+    }
+    .event-sep-line { height: 1px; flex: 1; background: rgba(121, 127, 92, 0.45); }
+    .event-sep-dot { width: 5px; height: 5px; border-radius: 50%; background: #4A5733; }
+
+    /* ─── Hero overlay (invitation layout) ─────────────────── */
+    #hero {
+      position: relative;
+      height: var(--hero-vh, 100svh);
+      max-height: var(--hero-vh, 100svh);
+      overflow: hidden;
+      background: #F0E9E1;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero-overlay {
+      position: absolute;
+      z-index: 10;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 3.25rem);
+      top: auto;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      text-align: center;
+      width: min(96vw, 24rem);
+      padding: 0 0.5rem;
+      pointer-events: none;
+    }
+    @media (min-width: 768px) {
+      .hero-overlay {
+        width: min(24rem, 72vw);
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 4rem);
+      }
+    }
+    /* Auto-fit scaler: shrinks the whole block so it never crops on short screens */
+    .hero-fit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      transform-origin: center bottom;
+      transform: scale(var(--hero-scale, 1));
+      will-change: transform;
+    }
+    .hero-bismillah {
+      width: min(64vw, 248px);
+      height: auto;
+      display: block;
+      margin: 0 auto 0.4rem;
+      object-fit: contain;
+    }
+    @media (min-width: 768px) {
+      .hero-bismillah { width: min(285px, 40vw); margin-bottom: 0.5rem; }
+    }
+    .hero-line-sm,
+    .hero-quote,
+    .hero-ref,
+    .hero-invite,
+    .hero-parent {
+      font-family: 'Cormorant Garamond', serif;
+      color: #4A5733;
+      text-align: center;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-line-sm {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    @media (min-width: 768px) { .hero-line-sm { font-size: 0.76rem; margin-bottom: 0.85rem; } }
+    .hero-verse {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 0.9rem;
+    }
+    .hero-quote {
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 0.28rem;
+      line-height: 1.35;
+      max-width: 16.5rem;
+    }
+    @media (min-width: 768px) {
+      .hero-quote { font-size: 1.05rem; letter-spacing: 0.1em; max-width: 18rem; }
+    }
+    .hero-ref {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgba(74, 87, 51, 0.88);
+      margin: 0;
+      line-height: 1.2;
+    }
+    @media (min-width: 768px) { .hero-ref { font-size: 0.7rem; } }
+    .hero-invite {
+      font-size: clamp(0.64rem, 2.8vw, 0.88rem);
+      font-weight: 600;
+      letter-spacing: 0.055em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+      line-height: 1.2;
+      white-space: nowrap;
+      max-width: none;
+      width: max-content;
+    }
+    @media (min-width: 768px) {
+      .hero-invite { font-size: 0.92rem; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
+    }
+    .hero-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3rem, 12.5vw, 5rem);
+      font-weight: 400;
+      line-height: 0.95;
+      color: #4A5733;
+      margin: 0;
+    }
+    .hero-parent {
+      font-size: 0.84rem;
+      font-weight: 400;
+      color: rgba(74, 87, 51, 0.85);
+      margin: 0.42rem 0 0;
+      line-height: 1.35;
+      letter-spacing: 0.02em;
+      max-width: 18rem;
+    }
+    @media (min-width: 768px) { .hero-parent { font-size: 0.92rem; margin-top: 0.5rem; } }
+    .hero-amp {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 7.5vw, 2.85rem);
+      color: #4A5733;
+      margin: 0.48rem 0 0.1rem;
+      line-height: 1;
+    }
+
+    /* ─── Scratch-to-reveal cards ──────────────────────────── */
+    #scratch-reveal-section { background: #EDE5D8; padding: 3rem 1.5rem 2.25rem; text-align: center; }
+    @media (min-width: 768px) { #scratch-reveal-section { padding: 4rem 1.5rem 3rem; } }
+    .hearts-row {
+      display: flex; justify-content: center; align-items: center;
+      gap: 14px; flex-wrap: nowrap; width: 100%; max-width: 420px; margin: 2rem auto 0;
+    }
+    .heart-container {
+      position: relative; width: 28vw; max-width: 112px; aspect-ratio: 0.82 / 1;
+      border-radius: 14px; overflow: hidden;
+      background: #E5DDD0; cursor: crosshair; touch-action: none;
+      border: 1px solid rgba(121, 127, 92, 0.25);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    /* ── Scratch hint: gentle beckoning wobble + glow ── */
+    .heart-container.hinting {
+      animation: scratch-nudge 2.4s ease-in-out infinite;
+    }
+    .heart-container.hinting:nth-child(2) { animation-delay: 0.25s; }
+    .heart-container.hinting:nth-child(3) { animation-delay: 0.5s; }
+    @keyframes scratch-nudge {
+      0%, 70%, 100% { transform: rotate(0deg) scale(1); box-shadow: 0 0 0 0 rgba(74,87,51,0); }
+      78%  { transform: rotate(-2.2deg) scale(1.035); box-shadow: 0 6px 22px rgba(74,87,51,0.18); }
+      86%  { transform: rotate(2deg)  scale(1.035); }
+      94%  { transform: rotate(-1.2deg) scale(1.02); }
+    }
+    /* ── Shimmer sweep over the green surface (sits above the canvas) ── */
+    .heart-container.hinting::after {
+      content: '';
+      position: absolute; inset: 0; z-index: 3;
+      pointer-events: none;
+      background: linear-gradient(115deg,
+        transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%);
+      background-size: 250% 100%;
+      animation: scratch-shimmer 2.4s ease-in-out infinite;
+    }
+    .heart-container.hinting:nth-child(2)::after { animation-delay: 0.25s; }
+    .heart-container.hinting:nth-child(3)::after { animation-delay: 0.5s; }
+    @keyframes scratch-shimmer {
+      0%, 60%, 100% { background-position: 150% 0; }
+      80%           { background-position: -50% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .heart-container.hinting,
+      .heart-container.hinting::after { animation: none; }
+    }
+    .hearts-row.unlocked .heart-container {
+      animation: gentle-heart-beat 3s infinite ease-in-out;
+      background: #fff;
+      box-shadow: 0 6px 26px rgba(74, 87, 51, 0.16);
+    }
+    .hearts-row.unlocked .heart-container:nth-child(2) { animation-delay: 0.3s; }
+    .hearts-row.unlocked .heart-container:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes gentle-heart-beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    .hidden-content {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: transparent; z-index: 1;
+    }
+    .hidden-content .label {
+      font-family: 'Raleway', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em;
+      color: rgba(74, 87, 51, 0.6); text-transform: uppercase; margin-bottom: 2px;
+    }
+    .hidden-content .value {
+      font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600;
+      color: #4A5733; line-height: 1; text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+    }
+    .scratch-canvas {
+      position: absolute; top: 0; left: 0; z-index: 2;
+      width: 100%; height: 100%; transition: opacity 1s ease;
+    }
+    .surprise-message {
+      font-family: 'Great Vibes', cursive; font-size: 2.4rem; color: #4A5733;
+      margin-top: 1.5rem; opacity: 0; transform: translateY(15px); transition: all 1.2s ease;
+    }
+    .surprise-message.revealed { opacity: 1; transform: translateY(0); }
+    .countdown-container {
+      display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 1.25rem;
+      opacity: 0; transform: translateY(15px); transition: all 1.2s ease;
+      pointer-events: none; flex-wrap: nowrap; width: 100%; max-width: 420px; margin-left: auto; margin-right: auto;
+    }
+    @media (min-width: 768px) { .countdown-container { gap: 0.8rem; max-width: none; } }
+    .countdown-container.revealed { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .cd-item {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #fff; border: 1px solid rgba(121, 127, 92, 0.25); border-radius: 0.75rem;
+      padding: 0.65rem 0.55rem; flex: 1 1 0; min-width: 0;
+      box-shadow: 0 4px 20px rgba(74, 87, 51, 0.08);
+    }
+    @media (min-width: 768px) { .cd-item { padding: 0.8rem 1rem; flex: 0 0 auto; min-width: 70px; } }
+    .cd-item span {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.35rem, 5vw, 1.8rem); font-weight: 600;
+      color: #4A5733; line-height: 1;
+    }
+    .cd-item small {
+      font-family: 'Raleway', sans-serif; font-size: 0.55rem; letter-spacing: 0.15em;
+      color: rgba(74, 87, 51, 0.65); text-transform: uppercase; margin-top: 0.3rem;
+    }
+
+    /* ─── Ambient magic layer (floating glow) ──────────────── */
+    #magic-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    /* ─── Footer ───────────────────────────────────────────── */
+    .site-footer {
+      position: relative;
+      background: linear-gradient(180deg, #F0E9E1 0%, #E8DECF 100%);
+      color: #4A5733;
+      padding: 2.5rem 1.5rem 3rem;
+      overflow: hidden;
+      text-align: center;
+    }
+    .site-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(201,168,76,0.10), transparent 55%);
+      pointer-events: none;
+    }
+    .footer-inner { position: relative; z-index: 1; max-width: 32rem; margin: 0 auto; }
+    .footer-ornament-img {
+      width: min(78vw, 360px);
+      height: auto;
+      display: block;
+      margin: 0 auto 1.25rem;
+      object-fit: contain;
+    }
+    @media (min-width: 768px) { .footer-ornament-img { width: min(420px, 60vw); } }
+    .footer-names {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.8rem, 11vw, 4rem);
+      line-height: 1;
+      color: #4A5733;
+      margin-bottom: 0.85rem;
+    }
+    .footer-date {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #9a8338;
+      margin-bottom: 2rem;
+    }
+    .footer-verse {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.96rem;
+      line-height: 1.75;
+      color: rgba(74,87,51,0.78);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.01em;
+    }
+    .footer-ref {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgba(74,87,51,0.55);
+      margin-bottom: 2.5rem;
+    }
+    .footer-credit {
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(74,87,51,0.42);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-credit span { color: #9a8338; transition: color 0.3s ease; }
+    .footer-credit:hover { color: rgba(74,87,51,0.7); }
+    .footer-credit:hover span { color: #C9A84C; }
+
+    /* ─── Gold shimmer sweep (names) ───────────────────────── */
+    .shimmer {
+      background: linear-gradient(
+        100deg,
+        currentColor 0%, currentColor 38%,
+        #E7C667 47%, #fff7df 50%, #E7C667 53%,
+        currentColor 62%, currentColor 100%
+      );
+      background-size: 250% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer-sweep 6.5s ease-in-out infinite;
+    }
+    @keyframes shimmer-sweep {
+      0%, 100% { background-position: 150% 0; }
+      50%      { background-position: -50% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .shimmer { animation: none; -webkit-text-fill-color: currentColor; }
+    }
+  </style>
+</head>
+<body style="overflow-x: hidden; overflow-y: hidden;">
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+
+</body>
+</html>
