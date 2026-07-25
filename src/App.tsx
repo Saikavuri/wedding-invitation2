@@ -488,7 +488,7 @@ function App() {
       <audio
         ref={audioRef}
         id="bg-audio"
-        src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/danish%20and%20sohaima/Saiyaan%20Dil%20Main%20Aana%20Re%20-%20Vylom%20Remix%20%20Trending%20Hindi%20Remix%20%20Instagram%20Hit%20%20Shamshad%20Begum.mp3"
+        src="/music.mp3"
         preload="auto"
         loop
       />
@@ -843,8 +843,23 @@ function App() {
               <div className="event-block anim">
                 <p className="event-day">25 August 2026</p>
                 <div className="event-card">
-                  <div className="event-item">
-                    <img src="/haldi.png" alt="Haldi ceremony" loading="lazy" />
+                  <div className="event-item relative">
+                    <img
+                      src="/haldi-new.jpeg"
+                      alt="Haldi ceremony"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
+                      <h3 className="font-script text-[#E21B7F] text-5xl md:text-6xl mb-2 tracking-wide leading-none drop-shadow-sm select-none">
+                        Haldi
+                      </h3>
+                      <p className="font-display text-[#E21B7F] text-lg md:text-xl font-medium tracking-[0.15em] uppercase select-none">
+                        25 August 2026
+                      </p>
+                      <p className="font-body text-[#E21B7F] text-xs md:text-sm tracking-[0.1em] uppercase mt-1 select-none">
+                        9:00 AM Onwards
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
