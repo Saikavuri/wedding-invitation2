@@ -814,7 +814,7 @@ function App() {
             <div className="events-header max-w-4xl mx-auto text-center anim">
               <span className="events-label">The Celebration Unfolds</span>
               <h2 className="font-script text-4xl md:text-6xl text-sage-dark leading-tight">
-                Three Blessed
+                With Blessed
                 <br />
                 Ceremonies
               </h2>
@@ -859,6 +859,28 @@ function App() {
                       <p className="font-body text-[#E21B7F] text-xs md:text-sm tracking-[0.1em] uppercase mt-1 select-none">
                         9:00 AM Onwards
                       </p>
+                      <a
+                        href="https://maps.app.goo.gl/uMQ5uJ2JfokCfpyd8?g_st=aw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-3 text-[10px] md:text-xs font-semibold tracking-wider uppercase text-white bg-[#E21B7F] rounded-full hover:bg-[#E21B7F]/95 transition-all shadow-md active:scale-95"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                          <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        Venue Map
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -873,31 +895,6 @@ function App() {
               <div
                 className="event-block anim"
                 style={{ transitionDelay: ".08s" }}
-              >
-                <p className="event-day">25 August 2026</p>
-                <div className="event-card">
-                  <div className="event-item">
-                    <img
-                      src="/mehedi.png"
-                      alt="Mehendi ceremony"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div
-                className="event-sep anim"
-                style={{ transitionDelay: ".08s" }}
-              >
-                <div className="event-sep-line"></div>
-                <div className="event-sep-dot"></div>
-                <div className="event-sep-line"></div>
-              </div>
-
-              <div
-                className="event-block anim"
-                style={{ transitionDelay: ".16s" }}
               >
                 <p className="event-day">26 August 2026</p>
                 <div className="event-card">
@@ -983,7 +980,7 @@ function App() {
 
                 <div className="flex justify-center">
                   <a
-                    href="https://maps.app.goo.gl/wTDRmuUaDE7KjkyaA?g_st=aw"
+                    href="https://maps.app.goo.gl/kxqRtFzxJ4dW77eD9?g_st=aw"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 h-10 rounded-md px-5 text-sm font-medium bg-[#4A5733] text-white hover:bg-[#4A5733]/90 transition-colors shadow-sm"
