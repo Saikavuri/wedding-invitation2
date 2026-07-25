@@ -145,6 +145,75 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isGateRevealed) return;
+
+    const sections = [
+      "hero",
+      "scratch-reveal-section",
+      "haldi-card",
+      "wedding-card",
+      "details-section",
+    ];
+    let currentIndex = 0;
+    let timer: number;
+    let isAutoScrolling = false;
+
+    const startAutoScroll = () => {
+      timer = setInterval(() => {
+        // Find which section is currently closest to the viewport top to continue from there
+        let closestIndex = 0;
+        let minDiff = Infinity;
+        sections.forEach((id, idx) => {
+          const el = document.getElementById(id);
+          if (el) {
+            const diff = Math.abs(el.getBoundingClientRect().top);
+            if (diff < minDiff) {
+              minDiff = diff;
+              closestIndex = idx;
+            }
+          }
+        });
+
+        // Go to next section
+        currentIndex = (closestIndex + 1) % sections.length;
+        let targetId = sections[currentIndex];
+        // If target is haldi-card, scroll to events-section to include the header
+        if (targetId === "haldi-card") {
+          targetId = "events-section";
+        }
+
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          isAutoScrolling = true;
+          targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          setTimeout(() => {
+            isAutoScrolling = false;
+          }, 1200);
+        }
+      }, 8000);
+    };
+
+    const resetTimer = () => {
+      if (isAutoScrolling) return;
+      clearInterval(timer);
+      startAutoScroll();
+    };
+
+    startAutoScroll();
+
+    window.addEventListener("scroll", resetTimer, { passive: true });
+    window.addEventListener("touchstart", resetTimer, { passive: true });
+    window.addEventListener("mousedown", resetTimer, { passive: true });
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("scroll", resetTimer);
+      window.removeEventListener("touchstart", resetTimer);
+      window.removeEventListener("mousedown", resetTimer);
+    };
+  }, [isGateRevealed]);
+
   const playBgAudio = () => {
     const bgAudio = audioRef.current;
     if (!bgAudio) return;
@@ -840,8 +909,8 @@ function App() {
             </div>
 
             <div className="events-list">
-              <div className="event-block anim">
-                <p className="event-day">25 August 2026</p>
+              <div id="haldi-card" className="event-block anim">
+                <p className="event-day">26 August 2026</p>
                 <div className="event-card">
                   <div className="event-item relative">
                     <img
@@ -850,20 +919,20 @@ function App() {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-                      <h3 className="font-script text-[#E21B7F] text-5xl md:text-6xl mb-2 tracking-wide leading-none drop-shadow-sm select-none">
+                      <h3 className="font-script text-[#800000] text-5xl md:text-6xl mb-2 tracking-wide leading-none drop-shadow-sm select-none">
                         Haldi
                       </h3>
-                      <p className="font-display text-[#E21B7F] text-lg md:text-xl font-medium tracking-[0.15em] uppercase select-none">
-                        25 August 2026
+                      <p className="font-display text-[#800000] text-lg md:text-xl font-medium tracking-[0.15em] uppercase select-none">
+                        26 August 2026
                       </p>
-                      <p className="font-body text-[#E21B7F] text-xs md:text-sm tracking-[0.1em] uppercase mt-1 select-none">
+                      <p className="font-body text-[#800000] text-xs md:text-sm tracking-[0.1em] uppercase mt-1 select-none">
                         9:00 AM Onwards
                       </p>
                       <a
                         href="https://maps.app.goo.gl/uMQ5uJ2JfokCfpyd8?g_st=aw"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-3 text-[10px] md:text-xs font-semibold tracking-wider uppercase text-white bg-[#E21B7F] rounded-full hover:bg-[#E21B7F]/95 transition-all shadow-md active:scale-95"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 mt-3 text-[10px] md:text-xs font-semibold tracking-wider uppercase text-white bg-[#800000] rounded-full hover:bg-[#800000]/95 transition-all shadow-md active:scale-95"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -893,6 +962,7 @@ function App() {
               </div>
 
               <div
+                id="wedding-card"
                 className="event-block anim"
                 style={{ transitionDelay: ".08s" }}
               >
@@ -911,7 +981,7 @@ function App() {
           </section>
 
           {/* ── 4. THE DETAILS / LOCATION ── */}
-          <section className="bg-ivory">
+          <section id="details-section" className="bg-ivory">
             {/* String lights */}
             <div className="w-full">
               <img
