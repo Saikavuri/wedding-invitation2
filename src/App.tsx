@@ -520,7 +520,7 @@ function App() {
   };
 
   const startCountdown = () => {
-    const weddingDate = new Date("August 26, 2026 19:30:00").getTime();
+    const weddingDate = new Date("August 26, 2026 23:23:00").getTime();
     const daysEl = document.getElementById("cd-days");
     const hoursEl = document.getElementById("cd-hours");
     const minsEl = document.getElementById("cd-mins");
@@ -557,7 +557,7 @@ function App() {
       <audio
         ref={audioRef}
         id="bg-audio"
-        src="/music.mp3"
+        src="/music2.mp3"
         preload="auto"
         loop
       />
@@ -922,11 +922,11 @@ function App() {
                       <h3 className="font-script text-[#800000] text-5xl md:text-6xl mb-2 tracking-wide leading-none drop-shadow-sm select-none">
                         Haldi
                       </h3>
-                      <p className="font-display text-[#800000] text-lg md:text-xl font-medium tracking-[0.15em] uppercase select-none">
-                        26 August 2026
-                      </p>
-                      <p className="font-body text-[#800000] text-xs md:text-sm tracking-[0.1em] uppercase mt-1 select-none">
-                        9:00 AM Onwards
+                      <p
+                        className="font-semibold text-lg md:text-xl text-[#800000] select-none"
+                        style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                      >
+                        Date: 26-08-2026 | 9:00 AM
                       </p>
                       <a
                         href="https://maps.app.goo.gl/uMQ5uJ2JfokCfpyd8?g_st=aw"
@@ -1031,11 +1031,11 @@ function App() {
 
                 {/* Date & Time info */}
                 <div className="mb-4 text-[#4A5733]">
-                  <p className="font-display text-sm tracking-wider uppercase font-semibold">
-                    26 August 2026
-                  </p>
-                  <p className="font-body text-xs text-sage/80 mt-0.5">
-                    7:30 PM onwards
+                  <p
+                    className="text-base md:text-lg font-semibold"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  >
+                    Date: 26-08-2026 | 11:23 PM
                   </p>
                 </div>
 
